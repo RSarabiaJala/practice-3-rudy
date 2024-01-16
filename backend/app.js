@@ -3,7 +3,6 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
 import appRouter from './app.router.js';
-import { users } from './fakeData.js';
 import env from './environment.js'
 import cors from 'cors'
 
@@ -13,6 +12,7 @@ const app = express();
 app.use(cors({
   origin: "*"
 }));
+
 app.use(bodyParser.json());
 
 app.use("/", appRouter)

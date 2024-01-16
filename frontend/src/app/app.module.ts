@@ -13,6 +13,8 @@ import { AuthInterceptor } from './security/interceptors/auth.interceptor';
 import { FeedComponent } from './components/feed/feed.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PostComponent } from './components/post/post.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     HomeComponent,
     FeedComponent,
     LogoutComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    PostComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

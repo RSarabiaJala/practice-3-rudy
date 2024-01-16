@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-export const users = [
+export let users = [
     { id: 1, username: 'john@doe', password: 'password', profilePicture: faker.image.avatar() },
     { id: 2, username: 'jane@doe', password: 'password', profilePicture: faker.image.avatar() },
 ];

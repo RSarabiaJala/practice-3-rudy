@@ -5,10 +5,12 @@ import { HomeComponent } from 'src/app/components/home/home.component';
 import { authGuard } from 'src/app/security/guards/auth.guard';
 import { LogoutComponent } from 'src/app/components/logout/logout.component';
 import { ResetPasswordComponent } from 'src/app/components/reset-password/reset-password.component';
+import { RegisterComponent } from 'src/app/components/register/register.component';
 
 
 const routes: Routes = [
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [authGuard] },

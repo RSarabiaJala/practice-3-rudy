@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { JwtService } from '../jwt/jwt.service';
 import { Router } from '@angular/router';
+import { RegisterRequest } from 'src/app/types';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class AuthService {
     localStorage.clear();
     this.router.navigate(['/login']);
     // You might want to add additional cleanup steps here
+  }
+
+  register(req : RegisterRequest): Observable<any>{
+    return this.http.post(`${this.baseUrl}/register`, {...req})
   }
 }
