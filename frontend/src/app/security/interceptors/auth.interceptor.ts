@@ -13,9 +13,15 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private jwtService: JwtService, private router: Router) {}
+  constructor(
+    private jwtService: JwtService,
+    private router: Router,
+  ) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
     const token = this.jwtService.getToken();
     if (token) {
       request = request.clone({
@@ -30,10 +36,10 @@ export class AuthInterceptor implements HttpInterceptor {
           // Optionally, you can handle refresh token logic here
           // or just redirect to the login page
           this.router.navigate(['/login']);
-          return throwError(()=>new Error('Unauthorized'));
+          return throwError(() => new Error('Unauthorized'));
         }
-        return throwError(()=>(error));
-      })
+        return throwError(() => error);
+      }),
     );
   }
 }

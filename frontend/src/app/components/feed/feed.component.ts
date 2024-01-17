@@ -6,7 +6,7 @@ import { ApiResponse, Post } from 'src/app/types';
 @Component({
   selector: 'app-feed',
   templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css']
+  styleUrls: ['./feed.component.css'],
 })
 export class FeedComponent implements OnInit {
   posts: Post[] = [];
@@ -14,14 +14,14 @@ export class FeedComponent implements OnInit {
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    try{
-      this.postService.getPosts().subscribe(
-      (response: ApiResponse<Post[]>) => {
-        this.posts = response.payload ?? [];
-      }
-    );}
-    catch(error){
-      console.error("Error while trying to retrieve posts")
-    }
+    this.postService.getPosts().subscribe(
+      (response: ApiResponse<any[]>) => {
+        this.posts = response?.payload || [];
+        console.log(this.posts);
+      },
+      (error) => {
+        console.error('Error while trying to retrieve posts', error);
+      },
+    );
   }
 }

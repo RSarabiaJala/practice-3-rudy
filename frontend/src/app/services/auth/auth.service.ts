@@ -1,24 +1,32 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtService } from '../jwt/jwt.service';
 import { Router } from '@angular/router';
 import { RegisterRequest } from 'src/app/types';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   isAuthenticated() {
-    return this.jwtService.getToken() && this.jwtService.getDecodedToken()?.exp as number > (Date.now() / 1000)
+    return (
+      this.jwtService.getToken() &&
+      (this.jwtService.getDecodedToken()?.exp as number) > Date.now() / 1000
+    );
   }
 
-  private baseUrl = 'http://localhost:3000/auth'; // Your backend API base URL
+  private baseUrl = `${environment.apiUrl}/auth`; // Your backend API base URL
 
-  constructor(private http: HttpClient, private jwtService: JwtService, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private jwtService: JwtService,
+    private router: Router,
+  ) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, { email, password });
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, { username, password });
   }
 
   logout(): void {
@@ -28,7 +36,8 @@ export class AuthService {
     // You might want to add additional cleanup steps here
   }
 
-  register(req : RegisterRequest): Observable<any>{
-    return this.http.post(`${this.baseUrl}/register`, {...req})
+  register(req: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register`, { ...req });
   }
+  
 }

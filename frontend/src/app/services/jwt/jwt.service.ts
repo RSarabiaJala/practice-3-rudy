@@ -1,32 +1,33 @@
 import { Injectable } from '@angular/core';
-import * as jwt_decode from "jwt-decode";
+import * as jwt_decode from 'jwt-decode';
+import { JwtAPIPayload } from 'src/app/types';
 
 const TOKEN_KEY = 'auth-token';
 
-interface JwtClaims extends jwt_decode.JwtPayload{
-  id: string,
-  username: string
-}
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JwtService {
   getToken(): string | null {
     return localStorage.getItem(TOKEN_KEY);
   }
 
-  getDecodedToken():JwtClaims |null
-  {
-    return this.decodeToken(this.getToken()??"")
+  getDecodedToken(): JwtAPIPayload | null{
+    return this.decodeToken(this.getToken());
   }
 
-  decodeToken(token: string): JwtClaims | null {
+  getSessionUser(){
+    return this.getDecodedToken()?.user
+  }
+
+  decodeToken(token: string | null): JwtAPIPayload | null{
     try {
-      return jwt_decode.jwtDecode(token) as JwtClaims;
+      if(!token)
+        throw new Error("Null token")
+      return jwt_decode.jwtDecode(token);
     } catch (error) {
       console.error('Error decoding JWT', error);
-      return null;
+      return null
     }
   }
 

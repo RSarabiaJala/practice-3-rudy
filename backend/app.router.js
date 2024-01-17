@@ -1,17 +1,18 @@
 import { Router } from "express";
 import apiRouter from "./api.router.js";
-import { users } from "./fakeData.js";
+import { users, withoutPassword } from "./fakeData.js";
 import jwt from "jsonwebtoken";
 import env from "./environment.js";
 import { randomInt } from "crypto";
+import { faker } from "@faker-js/faker";
 export const appRouter = Router();
 const { SECRET_KEY } = env;
 
 appRouter.post("/auth/login", (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   const user = users.find(
-    (u) => u.username === email && u.password === password
+    (u) =>( u.username === username || u.email === username)  && u.password === password
   );
 
   if (!user) {
@@ -19,7 +20,7 @@ appRouter.post("/auth/login", (req, res) => {
   }
 
   const accessToken = jwt.sign(
-    { id: user.id, username: user.username },
+    {user:withoutPassword(user)},
     SECRET_KEY,
     { expiresIn: "30m" }
   );
@@ -29,7 +30,7 @@ appRouter.post("/auth/login", (req, res) => {
 });
 
 appRouter.post("/auth/register", (req, res) => {
-  const { username, email, password } = req.body;
+  const { name, lastname, username, email, password } = req.body;
 
   // Check if the user already exists
   const existingUser = users.find((user) => user.email === email);
@@ -38,7 +39,7 @@ appRouter.post("/auth/register", (req, res) => {
   }
 
   // Create a new user
-  const newUser = {id: randomInt, username : email, password };
+  const newUser = {id: randomInt(1000,9999), name, lastname, username, email, password, profilePicture: faker.image.avatarGitHub()};
   users.push(newUser);
 
   return res
